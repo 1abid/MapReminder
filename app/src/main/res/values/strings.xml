@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Map Reminder</string>
+    <string name="permission_description">Without Location permission this app can not perform. Enable Location service
+        by clicking this button bellow
+    </string>
+</resources>

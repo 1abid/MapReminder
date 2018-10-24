@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    signingConfigs {
+        signing_config {
+            keyAlias 'vutkabilai'
+            keyPassword '123456'
+            storeFile file('/Volumes/workstations/key_passws/remind_map')
+            storePassword 'bijGittu2'
+        }
+    }
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.bus.green.mapreminder"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'com.google.android.material:material:' + rootProject.designVersion
+    implementation 'androidx.appcompat:appcompat:' + rootProject.androidXVersion
+    implementation 'androidx.cardview:cardview:' + rootProject.androidXVersion
+    implementation 'androidx.recyclerview:recyclerview:' + rootProject.androidXVersion
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+
+    // Navigation
+
+    implementation 'androidx.core:core-ktx:1.0.0-alpha1'
+    implementation 'android.arch.navigation:navigation-fragment-ktx:' + rootProject.navigationVersion
+    implementation 'android.arch.navigation:navigation-ui-ktx:' + rootProject.navigationVersion
+
+    //map
+    implementation 'com.google.android.gms:play-services-maps:' +rootProject.play_service_version
+    implementation 'com.google.android.gms:play-services-location:' +rootProject.play_service_version
+
+    //lottie-animation
+    implementation 'com.airbnb.android:lottie:' + rootProject.lottieVersion
+}
