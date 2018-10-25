@@ -56,15 +56,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermission() {
-        requiresPermission = true
         ActivityCompat.requestPermissions(this, permissions, requestCode)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (grantResults.any { PackageManager.PERMISSION_DENIED == it }) {
-
+            requiresPermission = true
         } else {
             requiresPermission = false
+            findNavController(R.id.my_nav_host_fragment).navigate(R.id.fragmentMain)
         }
     }
 
