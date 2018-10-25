@@ -39,6 +39,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:' + rootProject.androidXVersion
     implementation 'androidx.recyclerview:recyclerview:' + rootProject.androidXVersion
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     // Navigation
 

@@ -3,17 +3,15 @@ package com.bus.green.mapreminder
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.bus.green.mapreminder.common.checkPermission
 import com.bus.green.mapreminder.common.isGrantedPermission
 import com.bus.green.mapreminder.common.lazyFast
+import com.bus.green.mapreminder.reminder.ReminderRepository
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +24,10 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment?
     }
 
+    private val repository: ReminderRepository by lazyFast {
+        (application as ReminderApplication).getRepository()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,14 +35,15 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(host!!.navController)
 
-        requestPermission()
+        checkPermission(*permissions){
+            requestPermission()
+        }
+
     }
 
 
     override fun onResume() {
         super.onResume()
-
-
 
         isGrantedPermission(*permissions) {
             if (requiresPermission) {
@@ -60,18 +63,12 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (grantResults.any { PackageManager.PERMISSION_DENIED == it }) {
 
-            val options = NavOptions.Builder()
-                .setEnterAnim(R.anim.slide_in_right)
-                .setExitAnim(R.anim.slide_out_left)
-                .setPopEnterAnim(R.anim.slide_in_left)
-                .setPopExitAnim(R.anim.slide_out_right)
-                .build()
-            findNavController(R.id.my_nav_host_fragment).navigate(R.id.missingFragment, null, options)
-
         } else {
             requiresPermission = false
         }
     }
 
     override fun onSupportNavigateUp(): Boolean = findNavController(R.id.my_nav_host_fragment).navigateUp()
+
+    fun isRequiresPermission(): Boolean = requiresPermission
 }
