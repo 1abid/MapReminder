@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.bus.green.mapreminder.common.addMapStyle
 import com.bus.green.mapreminder.common.lazyFast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -46,6 +47,10 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
 
         val mapFragment = this.childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        newReminder?.setOnClickListener {
+            findNavController().navigate(R.id.add_reminder_action)
+        }
     }
 
 
@@ -79,7 +84,7 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap?) {
         this.map = map
         with(this.map){
-            setMapStyle(this)
+            addMapStyle(context!!)
             this?.uiSettings?.isMyLocationButtonEnabled   = false
             this?.uiSettings?.isMapToolbarEnabled = false
         }
@@ -103,18 +108,5 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun setMapStyle(map: GoogleMap?){
-        try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-            val success = map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.styled_map))
 
-            if (!success!!) {
-                Log.e("STYLING MAP", "Style parsing failed.")
-            }
-        } catch (e: Resources.NotFoundException) {
-            Log.e("STYLING MAP", "Can't find style. Error: ", e)
-        }
-
-    }
 }
