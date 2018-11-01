@@ -10,7 +10,7 @@ fun Context.checkPermission(vararg permissions: String, function:() -> Unit){
 }
 
 fun Context.isGrantedPermission(vararg permissions: String , function: () -> Unit){
-    if(permissions.all { ContextCompat.checkSelfPermission(this , it) == PackageManager.PERMISSION_GRANTED }){
+    if(permissions.all { this.checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED }){
         function()
     }
 }

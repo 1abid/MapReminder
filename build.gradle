@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.71'
+    ext.kotlin_version = '1.3.0'
     ext.safearg_version = '1.0.0-alpha02'
     repositories {
         google()
@@ -33,10 +33,31 @@ ext{
     rulesVersion = "0.5"
     espressoVersion = "2.2.2"
     navigationVersion = "1.0.0-alpha02"
+    room_version = "2.1.0-alpha01"
     constraintLayoutVersion = "1.1.0"
     lottieVersion = "2.8.0"
+    coroutineVersion = "1.0.0"
+    instrumentTestVersion = "1.1.0"
+    hamchrestVersion = "1.3"
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+
+ext {
+    appMapsApiKeyDebug = loadValues().getProperty('DEBUG_API_KEY')
+    appMapsApiKeyRelease = loadValues().getProperty('RELEASE_API_KEY')
+}
+
+def loadValues() {
+    Properties localProperties = new Properties()
+    if (project.rootProject.file('local.properties').exists()) {
+        localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+    } else {
+        localProperties.setProperty('DEBUG_API_KEY', System.getenv("DEBUG_API_KEY"))
+        localProperties.setProperty('RELEASE_API_KEY', System.getenv("RELEASE_API_KEY"))
+    }
+    return localProperties
 }

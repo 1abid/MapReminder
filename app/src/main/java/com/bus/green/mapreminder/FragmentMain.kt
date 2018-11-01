@@ -41,6 +41,7 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
 
 
 
+    @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,6 +52,23 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
         newReminder?.setOnClickListener {
             findNavController().navigate(R.id.add_reminder_action)
         }
+
+        if(onMapAndPermissionReady()){
+            map?.isMyLocationEnabled = true
+
+            //TODO animate to the current Location
+
+
+            currentLocation?.setOnClickListener {
+                val bestProvider = locationManager.getBestProvider(Criteria(), true)
+                val location = locationManager.getLastKnownLocation(bestProvider)
+                if (location != null) {
+                    val latLng = LatLng(location.latitude, location.longitude)
+                    map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                }
+            }
+        }
+
     }
 
 
@@ -88,25 +106,10 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
             this?.uiSettings?.isMyLocationButtonEnabled   = false
             this?.uiSettings?.isMapToolbarEnabled = false
         }
-        onMapAndPermissionReady()
     }
 
     @SuppressLint("MissingPermission")
-    private fun onMapAndPermissionReady() {
-        if(map != null && !(activity as MainActivity).isRequiresPermission()){
-            map?.isMyLocationEnabled = true
-            currentLocation?.setOnClickListener {
-                val bestProvider = locationManager.getBestProvider(Criteria(), true)
-                val location = locationManager.getLastKnownLocation(bestProvider)
-                if (location != null) {
-                    val latLng = LatLng(location.latitude, location.longitude)
-                    map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-                }
-            }
-
-        }
-    }
-
+    private fun onMapAndPermissionReady():Boolean = (map != null && !(activity as MainActivity).isRequiresPermission())
 
 
 }
