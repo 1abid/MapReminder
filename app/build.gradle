@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "de.mannodermaus.android-junit5"
+apply plugin: "jacoco"
 
 android {
     signingConfigs {
@@ -32,8 +34,20 @@ android {
 
         debug{
             minifyEnabled false
+            testCoverageEnabled true
             buildConfigField "String", "API_KEY", "\"$appMapsApiKeyDebug\""
             resValue 'string', "api_key", "\"$appMapsApiKeyDebug\""
+        }
+    }
+
+    testOptions {
+        junitPlatform {
+            details "none"
+            jacocoOptions {
+                html {
+                    enabled true
+                }
+            }
         }
     }
 }
@@ -49,7 +63,7 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.5"
 
     // Navigation
-    implementation "androidx.core:core-ktx:1.0.0"
+    implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
     implementation "android.arch.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
     implementation "android.arch.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
 
@@ -67,6 +81,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:$rootProject.play_service_version"
     implementation "com.google.android.gms:play-services-location:$rootProject.play_service_version"
 
+    //time
+    implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.threeTenBPVersion"
+
     //lottie-animation
     implementation "com.airbnb.android:lottie:$rootProject.lottieVersion"
 
@@ -74,5 +91,55 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$rootProject.instrumentTestVersion"
     androidTestImplementation "androidx.test:rules:$rootProject.instrumentTestVersion"
     androidTestImplementation "org.hamcrest:hamcrest-library:$rootProject.hamchrestVersion"
+    // (Required) Writing and executing Unit Tests on the JUnit Platform
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$rootProject.jupiterVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$rootProject.jupiterVersion"
+    testImplementation "org.assertj:assertj-core:$rootProject.asserJVersion"
+    // (Optional) If you need "Parameterized Tests"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$rootProject.jupiterVersion"
+    // (Optional) If you also have JUnit 4-based tests
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$rootProject.jupiterVersion"
+    testImplementation "com.nhaarman:mockito-kotlin:$rootProject.mockitoKotlinVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$rootProject.mockServerVersion"
+}
+
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for Debug build"
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    // what to exclude from coverage report
+    // UI, "noise", generated classes, platform classes, etc.
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/*$ViewInjector*.*',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Fragment.*',
+            '**/*Activity.*'
+    ]
+    // generated classes
+    classDirectories = fileTree(
+            dir: "$buildDir/intermediates/classes/debug",
+            excludes: excludes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/debug",
+            excludes: excludes
+    )
+
+    // sources
+    sourceDirectories = files([
+            android.sourceSets.main.java.srcDirs,
+            "src/main/kotlin"
+    ])
+    executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
 }
 

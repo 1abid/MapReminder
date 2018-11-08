@@ -1,8 +1,8 @@
 package com.bus.green.mapreminder
 
 import android.app.Application
-import com.bus.green.mapreminder.common.lazyFast
 import com.bus.green.mapreminder.reminder.ReminderRepository
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 class ReminderApplication: Application() {
 
@@ -11,6 +11,8 @@ class ReminderApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         repository = ReminderRepository(this)
+
+        AndroidThreeTen.init(this)
     }
 
     fun getRepository() = repository

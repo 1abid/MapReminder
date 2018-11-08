@@ -1,4 +1,4 @@
-package com.bus.green.mapreminder
+package com.bus.green.mapreminder.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -8,6 +8,8 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.bus.green.mapreminder.R
+import com.bus.green.mapreminder.ReminderApplication
 import com.bus.green.mapreminder.common.checkPermission
 import com.bus.green.mapreminder.common.isGrantedPermission
 import com.bus.green.mapreminder.common.lazyFast
