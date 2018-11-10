@@ -16,6 +16,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.bus.green.mapreminder.R
 import com.bus.green.mapreminder.common.addMapStyle
+import com.bus.green.mapreminder.common.animateCamera
 import com.bus.green.mapreminder.common.lazyFast
 import com.bus.green.mapreminder.location.FusedLocationProvider
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -26,14 +27,11 @@ import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_main.*
 
 const val TAG = "MAIN FRAGMENT"
-const val LATITUDE_BUNDLE_KEY = "latitude"
-const val LONGITUDE_BUNDLE_KEY = "longitude"
-const val ZOOM_BUNDLE_KEY = "zoom"
 
 class FragmentMain : Fragment(), OnMapReadyCallback {
 
     companion object {
-        private const val mapZoom = 15f
+        const val mapZoom = 15f
     }
 
     private var map: GoogleMap? = null
@@ -94,9 +92,8 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
 
             locationProvider.requestUpdate { latitude, longitude ->
                 Log.d("location", "latitude $latitude, longitude $longitude")
-
                 latLng = LatLng(latitude, longitude)
-                cameraAnimation(latLng)
+                map.animateCamera(latLng)
             }
         }
 
@@ -111,7 +108,6 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
             this?.uiSettings?.isMapToolbarEnabled = false
             this?.isMyLocationEnabled = true
         }
-
         onMapAndPermissionReady()
     }
 
@@ -119,10 +115,7 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     private fun onMapAndPermissionReady(){
         if((map != null && !(activity as MainActivity).isRequiresPermission())){
             currentLocation?.setOnClickListener {
-                if (latLng == null)
-                    Toast.makeText(context, "Location not found yet", Toast.LENGTH_SHORT)
-                else
-                    cameraAnimation(latLng)
+                map.animateCamera(latLng)
             }
         }
     }
@@ -133,9 +126,6 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun cameraAnimation(latLng: LatLng, zoom: Float = mapZoom){
-        map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, mapZoom))
-    }
 
 
 }

@@ -19,6 +19,7 @@
 
 
     <fragment android:id="@+id/addReminderFragment" android:name="com.bus.green.mapreminder.ui.AddReminderFragment"
-              android:label="AddReminderFragment"
+              android:label="Add Reminder"
               tools:layout="@layout/fragment_add_reminder"/>
+
 </navigation>
