@@ -3,8 +3,6 @@ package com.bus.green.mapreminder.ui
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.SystemClock
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
@@ -14,9 +12,6 @@ import com.bus.green.mapreminder.R
 import com.bus.green.mapreminder.ReminderApplication
 import com.bus.green.mapreminder.common.*
 import com.bus.green.mapreminder.reminder.ReminderRepository
-import org.threeten.bp.DateTimeUtils.toDate
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalTime
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/checked"
+            android:drawable="@drawable/ic_baseline_arrow"
+            android:state_checked="true"/>
+
+    <item
+            android:id="@+id/unchecked"
+            android:drawable="@drawable/ic_search" />
+
+    <transition
+            android:drawable="@drawable/toggle_search_back"
+            android:fromId="@id/unchecked"
+            android:toId="@id/checked" />
+
+    <transition
+            android:drawable="@drawable/toggle_back_search"
+            android:fromId="@+id/checked"
+            android:toId="@+id/unchecked" />
+
+</animated-selector>

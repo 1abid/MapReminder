@@ -1,25 +1,20 @@
 package com.bus.green.mapreminder.ui
 
 import android.annotation.SuppressLint
-import android.app.Service
 import android.content.Context
-import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.bus.green.mapreminder.R
 import com.bus.green.mapreminder.common.addMapStyle
 import com.bus.green.mapreminder.common.animateCamera
-import com.bus.green.mapreminder.common.lazyFast
 import com.bus.green.mapreminder.location.FusedLocationProvider
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment

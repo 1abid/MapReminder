@@ -1,7 +1,10 @@
 package com.bus.green.mapreminder.common
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.bus.green.mapreminder.R
 import com.bus.green.mapreminder.ui.FragmentMain
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -58,4 +61,10 @@ fun shouldSetDarkMap(instant:Instant) :Boolean{
 
     return !time.isAfter(LocalDateTime.ofInstant(instant, zoneId).toLocalTime())
 
+}
+
+fun Context.hideKeyboard(view: View) {
+    this.getSystemService(Activity.INPUT_METHOD_SERVICE).also {
+        (it as InputMethodManager).hideSoftInputFromWindow(view.windowToken, 0)
+    }
 }
