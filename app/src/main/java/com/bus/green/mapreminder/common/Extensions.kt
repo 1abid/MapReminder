@@ -15,6 +15,12 @@ fun Context.isGrantedPermission(vararg permissions: String , function: () -> Uni
     }
 }
 
+fun Context.isDeniedPermission(vararg permissions: String , function: () -> Unit){
+    if(permissions.any { this.checkSelfPermission(it) == PackageManager.PERMISSION_DENIED }){
+        function()
+    }
+}
+
 fun <T> lazyFast(operation: () -> T):Lazy<T> = lazy(LazyThreadSafetyMode.NONE){
     operation()
 }

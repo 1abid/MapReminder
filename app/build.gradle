@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
 apply plugin: "de.mannodermaus.android-junit5"
 apply plugin: "jacoco"
+apply plugin: 'kotlin-kapt'
 
 android {
     signingConfigs {
@@ -81,6 +82,12 @@ dependencies {
     //map
     implementation "com.google.android.gms:play-services-maps:$rootProject.play_service_version"
     implementation "com.google.android.gms:play-services-location:$rootProject.play_service_version"
+
+    //dagger
+    implementation 'com.google.dagger:dagger:2.16'
+    implementation 'com.google.dagger:dagger-android-support:2.16'
+    kapt 'com.google.dagger:dagger-compiler:2.16'
+    kapt "com.google.dagger:dagger-android-processor:2.16"
 
     //time
     implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.threeTenBPVersion"

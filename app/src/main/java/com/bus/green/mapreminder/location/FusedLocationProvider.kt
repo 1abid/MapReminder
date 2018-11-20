@@ -13,7 +13,7 @@ import com.google.android.gms.location.*
 const val TAG = "FUSED_LOCATION_PROVIDER"
 class FusedLocationProvider(
     private val context: Context,
-    private val fusedLocationProviderClient: FusedLocationProviderClient = FusedLocationProviderClient(context)
+    private val fusedLocationProviderClient: FusedLocationProviderClient
 ) : LocationProvider {
 
 
@@ -46,6 +46,8 @@ class FusedLocationProvider(
         subscribers.remove(callback)
         if(subscribers.isEmpty())
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+
+        Log.d("AddReminderFragment", "cancel locationRequest ${subscribers.size}")
     }
 
 
@@ -57,10 +59,12 @@ class FusedLocationProvider(
         }
 
         override fun onLocationResult(locationResult: LocationResult?) {
-            locationResult?.let {locationResult ->
-                locationResult.locations.firstOrNull()?.also {location ->
+            Log.d("AddReminderFragment", "onLocationResult() ${locationResult?.locations?.size}")
+            locationResult?.let {result ->
+                result.locations.firstOrNull()?.also {location ->
                     val (latitude, longitude) = location
                     subscribers.forEach {callback->
+                        Log.d("AddReminderFragment", "location request $latitude, $longitude")
                         callback(latitude, longitude)
                     }
                 }

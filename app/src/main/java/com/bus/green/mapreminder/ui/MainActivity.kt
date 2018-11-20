@@ -16,7 +16,7 @@ import com.bus.green.mapreminder.reminder.ReminderRepository
 class MainActivity : AppCompatActivity() {
 
     private val requestCode = 0
-    private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+    private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
     private var requiresPermission = false
 
     private val host: NavHostFragment? by lazyFast {
@@ -24,9 +24,6 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment?
     }
 
-    private val repository: ReminderRepository by lazyFast {
-        (application as ReminderApplication).getRepository()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,5 +66,4 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean = findNavController(R.id.my_nav_host_fragment).navigateUp()
 
-    fun isRequiresPermission(): Boolean = requiresPermission
 }
