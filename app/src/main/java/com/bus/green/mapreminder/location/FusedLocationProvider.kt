@@ -27,6 +27,7 @@ class FusedLocationProvider(
 
     @SuppressLint("MissingPermission")
     override fun requestUpdate(callback: (latitude: Double, longitude: Double) -> Unit) {
+
         if (subscribers.isEmpty()) {
             subscribers.add(callback)
             context.isGrantedPermission(*permissions) {

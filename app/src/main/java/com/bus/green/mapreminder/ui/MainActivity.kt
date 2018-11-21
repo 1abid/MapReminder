@@ -16,7 +16,7 @@ import com.bus.green.mapreminder.reminder.ReminderRepository
 class MainActivity : AppCompatActivity() {
 
     private val requestCode = 0
-    private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+    val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
     private var requiresPermission = false
 
     private val host: NavHostFragment? by lazyFast {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                 requiresPermission = false
             }
 
-            findNavController(R.id.my_nav_host_fragment).navigate(R.id.fragmentMain)
+            //findNavController(R.id.my_nav_host_fragment).navigate(R.id.fragmentMain)
 
         }
     }

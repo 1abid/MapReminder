@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bus.green.mapreminder.R
+import com.bus.green.mapreminder.common.isGrantedPermission
 import kotlinx.android.synthetic.main.fragment_missing_permission.*
 
 class MissingLocationPermissionFragment:Fragment() {
