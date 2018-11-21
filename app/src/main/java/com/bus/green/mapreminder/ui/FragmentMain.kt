@@ -82,14 +82,6 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
             newReminder.visibility = View.GONE
             currentLocation.visibility = View.GONE
 
-            val options = NavOptions.Builder()
-                .setEnterAnim(R.anim.slide_in_right)
-                .setExitAnim(R.anim.slide_out_left)
-                .setPopEnterAnim(R.anim.slide_in_left)
-                .setPopExitAnim(R.anim.slide_out_right)
-                .build()
-            findNavController().navigate(R.id.missingFragment, null, options)
-
         }
 
 

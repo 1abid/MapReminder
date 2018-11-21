@@ -5,8 +5,10 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.bus.green.mapreminder.R
 import com.bus.green.mapreminder.ReminderApplication
@@ -16,7 +18,7 @@ import com.bus.green.mapreminder.reminder.ReminderRepository
 class MainActivity : AppCompatActivity() {
 
     private val requestCode = 0
-    val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+    private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
     private var requiresPermission = false
 
     private val host: NavHostFragment? by lazyFast {
@@ -32,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(host!!.navController)
 
-        checkPermission(*permissions){
+        checkPermission(*permissions) {
             requestPermission()
         }
     }
@@ -46,8 +48,6 @@ class MainActivity : AppCompatActivity() {
                 requiresPermission = false
             }
 
-            //findNavController(R.id.my_nav_host_fragment).navigate(R.id.fragmentMain)
-
         }
     }
 
@@ -58,11 +58,13 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (grantResults.any { PackageManager.PERMISSION_DENIED == it }) {
             requiresPermission = true
+            findNavController(R.id.my_nav_host_fragment).navigate(R.id.action_fragmentMain_to_missingFragment)
         } else {
             requiresPermission = false
-            findNavController(R.id.my_nav_host_fragment).navigate(R.id.fragmentMain)
+            //findNavController(R.id.my_nav_host_fragment).navigate(R.id.go_to_main_action)
         }
     }
+
 
     override fun onSupportNavigateUp(): Boolean = findNavController(R.id.my_nav_host_fragment).navigateUp()
 
