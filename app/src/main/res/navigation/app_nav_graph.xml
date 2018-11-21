@@ -8,7 +8,8 @@
               tools:layout="@layout/fragment_main">
         <action android:id="@+id/add_reminder_action" app:destination="@id/addReminderFragment"
                 app:popUpTo="@+id/fragmentMain" app:enterAnim="@anim/slide_in_right" app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left" app:popExitAnim="@anim/slide_out_right"/>
+                app:popEnterAnim="@anim/slide_in_left" app:popExitAnim="@anim/slide_out_right"
+                app:popUpToInclusive="true"/>
     </fragment>
 
 

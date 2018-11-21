@@ -1,26 +1,19 @@
 package com.bus.green.mapreminder.ui
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
-import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bus.green.mapreminder.R
 import com.bus.green.mapreminder.common.addMapStyle
 import com.bus.green.mapreminder.common.hideKeyboard
 import com.bus.green.mapreminder.common.setCameraPosition
-import com.bus.green.mapreminder.location.FusedLocationProvider
 import com.bus.green.mapreminder.location.LocationProvider
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -38,7 +31,9 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
 
     private var map: GoogleMap? = null
 
-    @Inject @field:Named("addFragment") lateinit var currentLocation: LocationProvider
+    @Inject
+    @field:Named("addFragment")
+    lateinit var currentLocation: LocationProvider
     private lateinit var latLng: LatLng
 
 
@@ -52,7 +47,6 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
 
         val mapFragment = this.childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
 
         return view
     }
@@ -73,12 +67,12 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        currentLocation.requestUpdate { latitude, longitude ->
-            Log.d(ADD_REMINDER_TAG, "Current:latitude $latitude, Current:longitude $longitude")
-            latLng = LatLng(latitude, longitude)
-            Log.d(ADD_REMINDER_TAG, "latLng:latitude $latitude, latLng:longitude $longitude")
-        }
-        Log.d(ADD_REMINDER_TAG, "finishing onResume()")
+        currentLocation.requestUpdate(::getLocation)
+    }
+
+    private fun getLocation(latitude:Double, longitude: Double){
+        latLng = LatLng(latitude, longitude)
+        map?.setCameraPosition(latLng)
     }
 
     @SuppressLint("MissingPermission")
@@ -95,7 +89,7 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
 
     override fun onPause() {
         super.onPause()
-        currentLocation.cancelRequest { _, _ -> }
+        currentLocation.cancelRequest(::getLocation)
     }
 
     private val placeTextWatcher = object : TextWatcher{

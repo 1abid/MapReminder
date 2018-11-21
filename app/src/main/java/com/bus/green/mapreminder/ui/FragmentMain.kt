@@ -2,10 +2,8 @@ package com.bus.green.mapreminder.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +15,6 @@ import com.bus.green.mapreminder.common.addMapStyle
 import com.bus.green.mapreminder.common.animateCamera
 import com.bus.green.mapreminder.common.isDeniedPermission
 import com.bus.green.mapreminder.common.isGrantedPermission
-import com.bus.green.mapreminder.location.FusedLocationProvider
 import com.bus.green.mapreminder.location.LocationProvider
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -56,23 +53,16 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
-    /*override fun onAttach(context: Context?) {
-        super.onAttach(context)
-    }*/
-
     @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val mapFragment = this.childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
 
         newReminder?.setOnClickListener {
             findNavController().navigate(R.id.add_reminder_action)
         }
-
 
     }
 

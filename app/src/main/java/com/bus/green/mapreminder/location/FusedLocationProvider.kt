@@ -46,8 +46,6 @@ class FusedLocationProvider(
         subscribers.remove(callback)
         if(subscribers.isEmpty())
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
-
-        Log.d("AddReminderFragment", "cancel locationRequest ${subscribers.size}")
     }
 
 
@@ -59,12 +57,10 @@ class FusedLocationProvider(
         }
 
         override fun onLocationResult(locationResult: LocationResult?) {
-            Log.d("AddReminderFragment", "onLocationResult() ${locationResult?.locations?.size}")
             locationResult?.let {result ->
                 result.locations.firstOrNull()?.also {location ->
                     val (latitude, longitude) = location
                     subscribers.forEach {callback->
-                        Log.d("AddReminderFragment", "location request $latitude, $longitude")
                         callback(latitude, longitude)
                     }
                 }
