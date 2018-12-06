@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/app_nav_graph" app:startDestination="@id/fragmentMain">
 
-    <fragment android:id="@+id/fragmentMain" android:name="com.bus.green.mapreminder.ui.FragmentMain"
+    <fragment android:id="@+id/fragmentMain" android:name="com.bus.green.mapreminder.ui.mainFragment.FragmentMain"
               android:label="@string/app_name"
               tools:layout="@layout/fragment_main">
 
