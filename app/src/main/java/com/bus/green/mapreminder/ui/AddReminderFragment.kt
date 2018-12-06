@@ -36,7 +36,6 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
     private var map: GoogleMap? = null
 
     @Inject
-    @field:Named("addFragment")
     lateinit var currentLocation: LocationProvider
     private lateinit var latLng: LatLng
 

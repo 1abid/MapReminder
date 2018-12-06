@@ -16,7 +16,6 @@ import com.bus.green.mapreminder.common.addMapStyle
 import com.bus.green.mapreminder.common.animateCamera
 import com.bus.green.mapreminder.common.isDeniedPermission
 import com.bus.green.mapreminder.common.isGrantedPermission
-import com.bus.green.mapreminder.location.LocationProvider
 import com.bus.green.mapreminder.model.CurrentLocation
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,7 +23,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
-import javax.inject.Named
 
 const val TAG_FRAGMENT_MAIN = "MAIN FRAGMENT"
 
@@ -40,7 +38,7 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     private var map: GoogleMap? = null
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var fragmentMainViewModel: FragmentMainViewModel
+    private lateinit var fragmentMainViewModel: FragmentMainViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

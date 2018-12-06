@@ -74,6 +74,9 @@ dependencies {
     kapt "androidx.room:room-compiler:$rootProject.room_version"
     testImplementation "androidx.room:room-testing:$rootProject.room_version"
 
+    //lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle_version"
+
     //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutineVersion"
