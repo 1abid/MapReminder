@@ -16,6 +16,7 @@ import com.bus.green.mapreminder.common.animateCamera
 import com.bus.green.mapreminder.common.isDeniedPermission
 import com.bus.green.mapreminder.common.isGrantedPermission
 import com.bus.green.mapreminder.location.LocationProvider
+import com.bus.green.mapreminder.model.CurrentLocation
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -41,7 +42,6 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     @Inject
     @field:Named("mainFragment")
     lateinit var locationProvider: LocationProvider
-    private lateinit var latLng: LatLng
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,9 +88,8 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun bind(latitude: Double, longitude: Double) {
-        latLng = LatLng(latitude, longitude)
-        map.animateCamera(latLng)
+    private fun bind(currentLocation: CurrentLocation) {
+        map.animateCamera(currentLocation.latLng)
     }
 
     @SuppressLint("MissingPermission")

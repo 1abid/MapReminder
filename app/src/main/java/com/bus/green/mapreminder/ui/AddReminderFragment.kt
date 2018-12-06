@@ -16,6 +16,7 @@ import com.bus.green.mapreminder.common.animateCamera
 import com.bus.green.mapreminder.common.hideKeyboard
 import com.bus.green.mapreminder.common.setCameraPosition
 import com.bus.green.mapreminder.location.LocationProvider
+import com.bus.green.mapreminder.model.CurrentLocation
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -75,8 +76,8 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
         currentLocation.requestUpdate(::getLocation)
     }
 
-    private fun getLocation(latitude:Double, longitude: Double){
-        latLng = LatLng(latitude, longitude)
+    private fun getLocation(currentLocation: CurrentLocation){
+        latLng = currentLocation.latLng
         map?.setCameraPosition(latLng)
     }
 
