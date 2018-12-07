@@ -46,7 +46,7 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        currentLocationViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(currentLocationViewModel::class.java)
+        currentLocationViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(CurrentLocationViewModel::class.java)
 
         currentLocationViewModel.currentLocation.observe(this, Observer<CurrentLocation>{ currentLocation ->
             currentLocation?.apply {

@@ -31,12 +31,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        setupActionBarWithNavController(host!!.navController)
-
         checkPermission(*permissions) {
             requestPermission()
         }
+
+        setupActionBarWithNavController(host!!.navController)
     }
 
 
