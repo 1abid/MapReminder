@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bus.green.mapreminder.model.CurrentLocation
 import com.bus.green.mapreminder.model.CurrentLocationLiveData
-import com.bus.green.mapreminder.ui.mainFragment.FragmentMainViewModel
+import com.bus.green.mapreminder.ui.CurrentLocationViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -27,8 +27,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(FragmentMainViewModel::class)
-    abstract fun bindViewModel(fragmentMainViewModel: FragmentMainViewModel) : ViewModel
+    @ViewModelKey(CurrentLocationViewModel::class)
+    abstract fun bindViewModel(currentLocationViewModel: CurrentLocationViewModel) : ViewModel
 
 
     @Binds

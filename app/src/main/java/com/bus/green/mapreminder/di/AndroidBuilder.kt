@@ -1,7 +1,7 @@
 package com.bus.green.mapreminder.di
 
 import com.bus.green.mapreminder.ui.AddReminderFragment
-import com.bus.green.mapreminder.ui.mainFragment.FragmentMain
+import com.bus.green.mapreminder.ui.FragmentMain
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

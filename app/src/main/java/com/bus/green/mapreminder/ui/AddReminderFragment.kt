@@ -9,23 +9,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.airbnb.lottie.LottieAnimationView
 import com.bus.green.mapreminder.R
 import com.bus.green.mapreminder.common.addMapStyle
 import com.bus.green.mapreminder.common.animateCamera
 import com.bus.green.mapreminder.common.hideKeyboard
 import com.bus.green.mapreminder.common.setCameraPosition
-import com.bus.green.mapreminder.location.LocationProvider
 import com.bus.green.mapreminder.model.CurrentLocation
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_add_reminder.*
-import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
-import javax.inject.Named
 
 
 private const val ADD_REMINDER_TAG = "AddReminderFragment"
@@ -35,14 +34,25 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
 
     private var map: GoogleMap? = null
 
-    @Inject
-    lateinit var currentLocation: LocationProvider
-    private lateinit var latLng: LatLng
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var currentLocationViewModel: CurrentLocationViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        currentLocationViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(currentLocationViewModel::class.java)
+
+        currentLocationViewModel.currentLocation.observe(this, Observer<CurrentLocation>{ currentLocation ->
+            currentLocation?.apply {
+                getLocation(this)
+            }
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,14 +80,8 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        currentLocation.requestUpdate(::getLocation)
-    }
-
     private fun getLocation(currentLocation: CurrentLocation){
-        latLng = currentLocation.latLng
-        map?.setCameraPosition(latLng)
+        map?.setCameraPosition(currentLocation.latLng)
     }
 
     @SuppressLint("MissingPermission")
@@ -88,16 +92,14 @@ class AddReminderFragment : Fragment(), OnMapReadyCallback {
             this?.uiSettings?.isMyLocationButtonEnabled = false
             this?.uiSettings?.isMapToolbarEnabled = false
             this?.isMyLocationEnabled = true
+
+            currentLocationViewModel.currentLocation.value?.let {
+                getLocation(it)
+            }
         }
         user_location?.setOnClickListener {
-            map?.animateCamera(latLng)
+            map?.animateCamera(currentLocationViewModel.currentLocation.value!!.latLng)
         }
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        currentLocation.cancelRequest(::getLocation)
     }
 
     private val placeTextWatcher = object : TextWatcher{

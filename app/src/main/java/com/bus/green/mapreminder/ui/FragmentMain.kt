@@ -1,4 +1,4 @@
-package com.bus.green.mapreminder.ui.mainFragment
+package com.bus.green.mapreminder.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -38,16 +38,21 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     private var map: GoogleMap? = null
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var fragmentMainViewModel: FragmentMainViewModel
+    private lateinit var currentLocationViewModel: CurrentLocationViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        fragmentMainViewModel = ViewModelProviders.of(this, viewModelFactory).get(FragmentMainViewModel::class.java)
 
-        fragmentMainViewModel.currentLocation.observe(this, Observer<CurrentLocation>{  currentLocation ->
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        currentLocationViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(currentLocationViewModel::class.java)
+
+        currentLocationViewModel.currentLocation.observe(this, Observer<CurrentLocation>{ currentLocation ->
             currentLocation?.apply {
                 bind(this)
             }
@@ -113,7 +118,7 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     private fun onMapAndPermissionReady() {
         map?.let {
             currentLocation?.setOnClickListener {
-                bind(fragmentMainViewModel.currentLocation.value!!)
+                bind(currentLocationViewModel.currentLocation.value!!)
             }
         }
 

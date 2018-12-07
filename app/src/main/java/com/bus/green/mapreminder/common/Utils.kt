@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.bus.green.mapreminder.R
-import com.bus.green.mapreminder.ui.mainFragment.FragmentMain
+import com.bus.green.mapreminder.ui.FragmentMain
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
