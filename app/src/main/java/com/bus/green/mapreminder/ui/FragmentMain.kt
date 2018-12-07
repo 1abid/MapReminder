@@ -109,9 +109,9 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun onMapAndPermissionReady() {
-        map?.let {
+        map?.let { map->
             currentLocation?.setOnClickListener {
-                locationProvider.requestUpdate(::bind)
+                map.animateCamera(latLng)
             }
         }
 
