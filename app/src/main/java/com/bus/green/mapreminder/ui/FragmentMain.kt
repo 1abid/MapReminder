@@ -3,27 +3,26 @@ package com.bus.green.mapreminder.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.bus.green.mapreminder.R
 import com.bus.green.mapreminder.common.addMapStyle
 import com.bus.green.mapreminder.common.animateCamera
 import com.bus.green.mapreminder.common.isDeniedPermission
 import com.bus.green.mapreminder.common.isGrantedPermission
-import com.bus.green.mapreminder.location.LocationProvider
+import com.bus.green.mapreminder.model.CurrentLocation
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
-import javax.inject.Named
 
 const val TAG_FRAGMENT_MAIN = "MAIN FRAGMENT"
 
@@ -39,14 +38,27 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     private var map: GoogleMap? = null
 
     @Inject
-    @field:Named("mainFragment")
-    lateinit var locationProvider: LocationProvider
-    private lateinit var latLng: LatLng
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var currentLocationViewModel: CurrentLocationViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
+
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        currentLocationViewModel =
+                ViewModelProviders.of(activity!!, viewModelFactory).get(CurrentLocationViewModel::class.java)
+
+        currentLocationViewModel.currentLocation.observe(this, Observer<CurrentLocation> { currentLocation ->
+            currentLocation?.apply {
+                bind(this)
+            }
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,11 +86,9 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
         context?.isGrantedPermission(*permissions) {
             newReminder.visibility = View.VISIBLE
             currentLocation.visibility = View.VISIBLE
-
-            locationProvider.requestUpdate(::bind)
         }
 
-        context?.isDeniedPermission(*permissions){
+        context?.isDeniedPermission(*permissions) {
             newReminder.visibility = View.GONE
             currentLocation.visibility = View.GONE
 
@@ -88,9 +98,8 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun bind(latitude: Double, longitude: Double) {
-        latLng = LatLng(latitude, longitude)
-        map.animateCamera(latLng)
+    private fun bind(currentLocation: CurrentLocation) {
+        map.animateCamera(currentLocation.latLng)
     }
 
     @SuppressLint("MissingPermission")
@@ -109,17 +118,12 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun onMapAndPermissionReady() {
-        map?.let { map->
+        map?.let {
             currentLocation?.setOnClickListener {
-                map.animateCamera(latLng)
+                bind(currentLocationViewModel.currentLocation.value!!)
             }
         }
 
-    }
-
-    override fun onPause() {
-        super.onPause()
-        locationProvider.cancelRequest(::bind)
     }
 
 }

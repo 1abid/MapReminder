@@ -2,6 +2,7 @@ package com.bus.green.mapreminder.location
 
 import android.content.Context
 import android.content.pm.PackageManager
+import com.bus.green.mapreminder.model.CurrentLocation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.nhaarman.mockito_kotlin.*
@@ -17,9 +18,9 @@ class LocationProviderTest {
 
     private val context: Context = mock()
     private val fusedLocationProviderClient: FusedLocationProviderClient = mock()
-    private val locationRequestCallBack1: ((latitude: Double, longitude: Double) -> Unit) = mock()
-    private val locationRequestCallBack2: ((latitude: Double, longitude: Double) -> Unit) = mock()
-    private val subscriberList = mock<MutableList<(latitude: Double, longitude: Double) -> Unit>>()
+    private val locationRequestCallBack1: ((currentLocation: CurrentLocation) -> Unit) = mock()
+    private val locationRequestCallBack2: ((currentLocation: CurrentLocation) -> Unit) = mock()
+    private val subscriberList = mock<MutableList<(currentLocation: CurrentLocation) -> Unit>>()
     private val locationProvider: LocationProvider = FusedLocationProvider(context, fusedLocationProviderClient)
 
     @BeforeEach

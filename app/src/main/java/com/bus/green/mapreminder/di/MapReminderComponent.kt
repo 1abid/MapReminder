@@ -13,7 +13,8 @@ import javax.inject.Singleton
     modules = [AndroidInjectionModule::class,
         AndroidBuilder::class,
         MapReminderModule::class,
-        LocationModule::class]
+        LocationModule::class,
+        ViewModelModule::class]
 )
 interface MapReminderComponent {
 

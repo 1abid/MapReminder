@@ -18,13 +18,6 @@ class LocationModule {
 
     @Provides
     @Singleton
-    @Named("mainFragment")
-    fun providesFusedLocationProviderMain(context: Context, fusedLocationProviderClient: FusedLocationProviderClient): LocationProvider =
-            FusedLocationProvider(context, fusedLocationProviderClient)
-
-    @Provides
-    @Singleton
-    @Named("addFragment")
-    fun providesFusedLocationProviderAddReminder(context: Context, fusedLocationProviderClient: FusedLocationProviderClient): LocationProvider =
+    fun providesFusedLocationProvider(context: Context, fusedLocationProviderClient: FusedLocationProviderClient): LocationProvider =
         FusedLocationProvider(context, fusedLocationProviderClient)
 }

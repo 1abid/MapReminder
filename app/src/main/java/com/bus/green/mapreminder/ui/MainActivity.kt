@@ -5,20 +5,19 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.bus.green.mapreminder.R
-import com.bus.green.mapreminder.ReminderApplication
-import com.bus.green.mapreminder.common.*
-import com.bus.green.mapreminder.reminder.ReminderRepository
+import com.bus.green.mapreminder.common.checkPermission
+import com.bus.green.mapreminder.common.isGrantedPermission
+import com.bus.green.mapreminder.common.lazyFast
 
 class MainActivity : AppCompatActivity() {
 
     private val requestCode = 0
-    private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+    private val permissions =
+        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
     private var requiresPermission = false
 
     private val host: NavHostFragment? by lazyFast {
@@ -35,10 +34,7 @@ class MainActivity : AppCompatActivity() {
             requestPermission()
         }
 
-
         setupActionBarWithNavController(host!!.navController)
-
-
     }
 
 

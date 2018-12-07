@@ -8,6 +8,7 @@ import androidx.core.location.component1
 import androidx.core.location.component2
 import com.bus.green.mapreminder.common.isGrantedPermission
 import com.bus.green.mapreminder.common.lazySafe
+import com.bus.green.mapreminder.model.CurrentLocation
 import com.google.android.gms.location.*
 
 const val TAG = "FUSED_LOCATION_PROVIDER"
@@ -21,12 +22,12 @@ class FusedLocationProvider(
         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
     private val subscribers by lazySafe {
-        mutableListOf<(latitude: Double, longitude: Double) -> Unit>()
+        mutableListOf<(currentLocation: CurrentLocation) -> Unit>()
     }
 
 
     @SuppressLint("MissingPermission")
-    override fun requestUpdate(callback: (latitude: Double, longitude: Double) -> Unit) {
+    override fun requestUpdate(callback: (currentLocation:CurrentLocation) -> Unit) {
 
         if (subscribers.isEmpty()) {
             subscribers.add(callback)
@@ -42,7 +43,7 @@ class FusedLocationProvider(
             subscribers.add(callback)
     }
 
-    override fun cancelRequest(callback: (latitude: Double, longitude: Double) -> Unit) {
+    override fun cancelRequest(callback: (currentLocation:CurrentLocation) -> Unit) {
 
         subscribers.remove(callback)
         if(subscribers.isEmpty())
@@ -62,7 +63,7 @@ class FusedLocationProvider(
                 result.locations.firstOrNull()?.also {location ->
                     val (latitude, longitude) = location
                     subscribers.forEach {callback->
-                        callback(latitude, longitude)
+                        callback(CurrentLocation(latitude, longitude))
                     }
                 }
             }
