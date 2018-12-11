@@ -2,6 +2,7 @@ package com.bus.green.mapreminder.common
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Resources
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -35,7 +36,7 @@ fun GoogleMap?.addMapStyle(context: Context) {
         if (!success!!) {
             Log.e("STYLING MAP", "Style parsing failed.")
         }
-    } catch (e: Exception) {
+    } catch (e: Resources.NotFoundException) {
         Log.e("STYLING MAP", "Can't find style. Error: ", e)
     }
 }

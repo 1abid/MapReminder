@@ -16,7 +16,7 @@ import com.bus.green.mapreminder.common.lazyFast
 class MainActivity : AppCompatActivity() {
 
     private val requestCode = 0
-    private val permissions =
+    private val permissions:Array<out String> =
         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
     private var requiresPermission = false
 
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        checkPermission(*permissions) {
+        checkPermission(permissions) {
             requestPermission()
         }
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        isGrantedPermission(*permissions) {
+        isGrantedPermission(permissions) {
             if (requiresPermission) {
                 requiresPermission = false
             }
@@ -63,7 +63,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onSupportNavigateUp(): Boolean = findNavController(R.id.my_nav_host_fragment).navigateUp()
-
 }

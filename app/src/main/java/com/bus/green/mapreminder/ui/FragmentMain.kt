@@ -28,7 +28,7 @@ const val TAG_FRAGMENT_MAIN = "MAIN FRAGMENT"
 
 class FragmentMain : Fragment(), OnMapReadyCallback {
 
-    private val permissions =
+    private val permissions: Array<out String> =
         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
     companion object {
@@ -83,12 +83,12 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
 
-        context?.isGrantedPermission(*permissions) {
+        context?.isGrantedPermission(permissions) {
             newReminder.visibility = View.VISIBLE
             currentLocation.visibility = View.VISIBLE
         }
 
-        context?.isDeniedPermission(*permissions) {
+        context?.isDeniedPermission(permissions) {
             newReminder.visibility = View.GONE
             currentLocation.visibility = View.GONE
 
@@ -109,7 +109,7 @@ class FragmentMain : Fragment(), OnMapReadyCallback {
             addMapStyle(context!!)
             this?.uiSettings?.isMyLocationButtonEnabled = false
             this?.uiSettings?.isMapToolbarEnabled = false
-            context?.isGrantedPermission(*permissions) {
+            context?.isGrantedPermission(permissions) {
                 this?.isMyLocationEnabled = true
             }
         }

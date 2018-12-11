@@ -18,6 +18,7 @@ class LocationModule {
 
     @Provides
     @Singleton
-    fun providesFusedLocationProvider(context: Context, fusedLocationProviderClient: FusedLocationProviderClient): LocationProvider =
+    fun providesFusedLocationProvider(context: Context,
+                                      fusedLocationProviderClient: FusedLocationProviderClient): LocationProvider =
         FusedLocationProvider(context, fusedLocationProviderClient)
 }

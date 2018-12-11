@@ -9,7 +9,11 @@ import androidx.core.location.component2
 import com.bus.green.mapreminder.common.isGrantedPermission
 import com.bus.green.mapreminder.common.lazySafe
 import com.bus.green.mapreminder.model.CurrentLocation
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationAvailability
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
 
 const val TAG = "FUSED_LOCATION_PROVIDER"
 class FusedLocationProvider(
@@ -18,7 +22,7 @@ class FusedLocationProvider(
 ) : LocationProvider {
 
 
-    private val permissions =
+    private val permissions: Array<out String> =
         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
     private val subscribers by lazySafe {
@@ -31,7 +35,7 @@ class FusedLocationProvider(
 
         if (subscribers.isEmpty()) {
             subscribers.add(callback)
-            context.isGrantedPermission(*permissions) {
+            context.isGrantedPermission(permissions) {
                 LocationRequest.create().also { locationRequest ->
                     locationRequest.priority = LocationRequest.PRIORITY_LOW_POWER
 
