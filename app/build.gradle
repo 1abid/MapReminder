@@ -1,3 +1,8 @@
+
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC7"
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -6,6 +11,7 @@ apply plugin: 'androidx.navigation.safeargs'
 apply plugin: "de.mannodermaus.android-junit5"
 apply plugin: "jacoco"
 apply plugin: 'kotlin-kapt'
+
 
 android {
     signingConfigs {
@@ -153,4 +159,30 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     ])
     executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
 }
+
+detekt {
+    version = "1.0.0.RC7"
+    profile("main") {
+        input = "$projectDir/src/main/java"
+        config = "$projectDir/detekt.yml"
+        output = "$project.buildDir/reports/detekt.xml"
+        //outputFormat = "xml"
+        filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
+    }
+
+    /*reports {
+        xml {
+            enabled = true
+            destination = file("$projectDir/destination.xml")
+        }
+        html {
+            enabled = true
+            destination = file("$projectDir/destination.html")
+        }
+    }*/
+
+
+}
+
+check.dependsOn detektCheck
 
