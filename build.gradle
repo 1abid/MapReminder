@@ -64,9 +64,9 @@ def loadValues() {
     Properties localProperties = new Properties()
     if (project.rootProject.file('local.properties').exists()) {
         localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-    } else {
+    } /*else {
         localProperties.setProperty('DEBUG_API_KEY', System.getenv("DEBUG_API_KEY"))
         localProperties.setProperty('RELEASE_API_KEY', System.getenv("RELEASE_API_KEY"))
-    }
+    }*/
     return localProperties
 }
