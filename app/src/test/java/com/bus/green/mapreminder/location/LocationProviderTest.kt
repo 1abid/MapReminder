@@ -7,7 +7,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
